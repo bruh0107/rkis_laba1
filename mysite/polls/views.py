@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+
+from .forms import RegistrationForm
 from .models import Question, Choice
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 
@@ -39,4 +41,9 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 def home(request):
-    return render(request, 'main.html')
+    return render(request, 'polls/home.html')
+
+class Registration(generic.CreateView):
+    template_name = 'polls/register.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy('login')
