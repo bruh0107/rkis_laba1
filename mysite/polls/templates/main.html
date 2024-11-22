@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Крутые опросы{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="bg-primary">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+        <a class="nav-link link-light fs-5" href="">Опросы.ру</a>
+        <nav class="nav">
+            <a class="nav-link link-light fs-5" href="">Регистрация</a>
+            <a class="nav-link link-light fs-5" href="">Авторизация</a>
+
+        </nav>
+    </div>
+</header>
+</body>
+</html>
