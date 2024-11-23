@@ -4,12 +4,13 @@ from django.contrib.auth.management.commands.changepassword import UserModel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import DeleteView
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ProfileUpdateForm
 from .models import Question, Choice, User
 from django.template import loader
 from django.urls import reverse, reverse_lazy
-from django.views import generic
+from django.views import generic, View
 
 
 class IndexView(generic.ListView):
@@ -64,3 +65,28 @@ class Profile(LoginRequiredMixin, generic.DetailView):
         if not user.avatar:
             messages.error(self.request, 'Пожалуйста, загрузите аватар.')
             return user
+
+class ProfileUpdateView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = ProfileUpdateForm(instance=request.user)
+        return render(request, 'polls/profile_update.html', {'form': form})
+
+    def post(self, request):
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:profile')
+        return render(request, 'polls/profile_update.html', {'form': form})
+
+class ProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'polls/profile_confirm_delete.html'
+    success_url = reverse_lazy('polls:index')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def delete(self, request, *args, **kwargs):
+        logout(request)
+        messages.success(request, 'Ваш профиль был успешно удален')
+        return super().delete(request, *args, **kwargs)

@@ -1,3 +1,5 @@
+from cProfile import label
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -46,3 +48,18 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'avatar')
 
+class ProfileUpdateForm(forms.ModelForm):
+    avatar = forms.FileField(label='Фото профиля', widget=forms.FileInput, required=False)
+    first_name = forms.CharField(label='Имя', max_length=150, required=True)
+    last_name = forms.CharField(label='Фамилия', max_length=150, required=True)
+    email = forms.EmailField(label='Email', max_length=254, required=True)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('Этот email уже используется.')
+        return email
+
+    class Meta:
+        model = User
+        fields = ['avatar', 'first_name', 'last_name', 'email']

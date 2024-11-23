@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <h1>Подтвердите удаление профиля</h1>
+  <p>Вы действительно хотите удалить свой профиль? Это действие необратимо.</p>
+
+  <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Удалить профиль</button>
+      <a href="{% url 'polls:profile' %}" class="btn btn-secondary">Отмена</a>
+  </form>
+{% endblock %}

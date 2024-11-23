@@ -4,12 +4,15 @@
 
 {% block content %}
 <h1>Профиль</h1>
+<br>
 <div class="profile">
     <div class="avatar">
         <img src="{{ user.avatar.url }}" alt="Аватар пользователя" style="max-width: 150px; border-radius: 50%;">
     </div>
-    <h2>{{ user_profile.first_name }} {{ user_profile.last_name }}</h2>
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
     <p><strong>Username:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-  </div>
+    <a class="btn btn-primary" href="{% url 'polls:profile_update' %}">Изменить профиль</a>
+    <a class="btn btn-danger" href="{% url 'polls:profile_delete' %}">Удалить профиль</a>
+</div>
 {% endblock %}

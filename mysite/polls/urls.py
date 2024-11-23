@@ -12,6 +12,9 @@ urlpatterns = [
 
     path('register/', views.Registration.as_view(), name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='polls/login.html'), name='login'),
+    path('logout/', views.logout_view, name='logout'),
+
     path('profile/', views.Profile.as_view(), name='profile'),
-    path('logout/', views.logout_view, name='logout')
+    path('profile/edit/', views.ProfileUpdateView.as_view(), name='profile_update'),
+    path('profile/delete/', views.ProfileDeleteView.as_view(), name='profile_delete')
 ]

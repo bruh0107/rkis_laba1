@@ -1,0 +1,13 @@
+{% extends 'main.html' %}
+
+<title>{% block title %}{% endblock %}</title>
+
+{% block content %}
+  <h1>Редактировать профиль</h1>
+  <form class="form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-success">Сохранить изменения</button>
+      <a class="btn btn-primary" href="{% url 'polls:profile' %}">Вернуться в профиль</a>
+  </form>
+{% endblock %}
