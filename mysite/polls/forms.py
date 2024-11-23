@@ -8,6 +8,7 @@ class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(label='Email', max_length=254)
     first_name = forms.CharField(label="Имя", max_length=150)
     last_name = forms.CharField(label="Фамилия", max_length=150)
+    avatar = forms.FileField(label='Загрузите свой аватар', widget=forms.FileInput, required=True)
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
     password_confirm = forms.CharField(label="Подтвердить пароль", widget=forms.PasswordInput)
 
@@ -35,11 +36,13 @@ class RegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data.get("password"))
+        if self.cleaned_data.get("image"):
+            user.avatar = self.cleaned_data.get("image")
         if commit:
             user.save()
             return user
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('username', 'email', 'first_name', 'last_name', 'avatar')
 

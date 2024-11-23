@@ -1,4 +1,12 @@
 {% extends 'main.html' %}
+
+<title>{% block title %}Авторизация{% endblock %}</title>
+
 {% block content %}
-<h1>Это страница авторизации</h1>
+<h2>Авторизация</h2>
+<form class="form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
 {% endblock %}

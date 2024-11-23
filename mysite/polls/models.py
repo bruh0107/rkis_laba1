@@ -6,13 +6,14 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     username = models.CharField(max_length=150, verbose_name='Username', unique=True)
+    avatar = models.FileField(upload_to='avatars/', verbose_name='Загрузите свой аватар')
     first_name = models.CharField(max_length=150, verbose_name='Имя')
     last_name = models.CharField(max_length=150, verbose_name='Фамилия')
     email = models.EmailField(max_length=150, verbose_name='Email', unique=True)
     password = models.CharField(max_length=150, verbose_name='Пароль')
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'avatar']
 
     def __str__(self):
         return self.username
