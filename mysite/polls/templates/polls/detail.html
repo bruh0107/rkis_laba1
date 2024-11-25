@@ -16,5 +16,9 @@
             </div>
         {% endfor %}
         <input type="submit" value="Голосовать">
+        <br>
+        {% if error_message %}
+            <span class="text-danger">{{error_message}}</span>
+        {% endif %}
     </form>
 {% endblock %}
