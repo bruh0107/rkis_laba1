@@ -43,8 +43,6 @@ def vote(request, question_id):
 
     if Vote.objects.filter(user=request.user, question=question).exists():
         messages.error(request, "Вы уже голосовали на этом вопросе. Голосовать повторно нельзя.")
-        print(Vote.objects.filter(user=request.user, question=question).query)  # Посмотреть SQL-запрос
-        print(Vote.objects.filter(user=request.user, question=question).exists())  # Проверить результат
         return render(request, 'polls/detail.html', {
             'question': question,
             'error_message': 'Вы уже сделали выбор...'
