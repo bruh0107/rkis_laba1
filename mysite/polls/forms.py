@@ -1,9 +1,8 @@
-from cProfile import label
-
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import User
+from .models import User, Question
+
 
 class RegistrationForm(forms.ModelForm):
     username = forms.CharField(label='Username', max_length=150)
@@ -63,3 +62,11 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['avatar', 'first_name', 'last_name', 'email']
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question_text', 'description', 'image', 'pub_date']
+        widgets = {
+            'pub_date': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        }

@@ -1,17 +1,20 @@
 {% extends 'main.html' %}
 {% block content %}
-<form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend>
-            <h1>{{question.question_text}}</h1>
-        </legend>
-        {% if error_message %}<p><strong> {{error_message}}</strong></p>{% endif %}
+    <h1>{{ question.question_text }}</h1>
+    {% if question.image %}
+        <img class="w-25" src="{{ question.image.url }}" alt="Фото вопроса">
+    {% endif %}
+
+    <p>{{ question.description }}</p>
+
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
         {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}">
-        <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br>
+            <div>
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+            </div>
         {% endfor %}
-    </fieldset>
-<input type="submit" value="Vote">
-</form>
+        <input type="submit" value="Голосовать">
+    </form>
 {% endblock %}
